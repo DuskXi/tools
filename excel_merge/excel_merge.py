@@ -29,7 +29,8 @@ def main(args):
     head = pd.read_excel(os.path.join(input_dir, files[0]))
     for file in files[1:]:
         df = pd.read_excel(os.path.join(input_dir, file))
-        head = head.append(df)
+        # concatenate by vertical and ingore index and header
+        head = pd.concat([head, df], axis=0, ignore_index=True, sort=False)
     out_name = "merged.xlsx"
     files_in_outdir = [x for x in os.listdir(output_dir) if x.endswith(".xlsx")]
     i = 0
@@ -43,7 +44,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="excel merge")
     parser.add_argument("-i", "--input", type=str, help="dir that have xlsx file", default=".")
     parser.add_argument("-o", "--output", type=str, help="output dir", default="./output")
-    parser.add_argument("-I", "--interactive", type=bool, help="interactive mode", store_true=True, default=False)
+    parser.add_argument("-I", "--interactive",  help="interactive mode", action='store_true', default=False)
     return parser.parse_args()
 
 

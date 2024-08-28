@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  caddy:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ./output:/data/caddy/certificates
+      - ./Caddyfile.template:/etc/caddy/Caddyfile
+    container_name: caddy-cert-generator
